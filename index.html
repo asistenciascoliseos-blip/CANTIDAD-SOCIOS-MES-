@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f766e" />
+    <meta
+      name="description"
+      content="Registro de socios para todos los meses del año."
+    />
+    <title>Registro diario</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Control diario · todos los años</p>
+          <h1>Registro de socios para todos los meses</h1>
+        </div>
+        <div class="hero-badge" aria-hidden="true">
+          <span>TODO</span>
+          <strong>TODO<br />—<br />AÑO</strong>
+        </div>
+      </header>
+
+      <section class="stats-grid" aria-label="Resumen">
+        <article class="stat-card">
+          <span class="stat-label">Registros guardados</span>
+          <strong id="recordCount">0</strong>
+        </article>
+        <article class="stat-card accent">
+          <span class="stat-label">Atenciones acumuladas</span>
+          <strong id="totalCount">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Último registro</span>
+          <strong id="lastRecord">—</strong>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <div class="panel form-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-kicker">Nuevo registro</p>
+              <h2>Completa el turno</h2>
+            </div>
+            <span class="required-note">* Obligatorio</span>
+          </div>
+
+          <form id="recordForm">
+            <div class="form-row two-columns">
+              <label>
+                Fecha <span>*</span>
+                <input id="date" name="date" type="date" required />
+              </label>
+              <label>
+                Turno <span>*</span>
+                <select id="shift" name="shift" required>
+                  <option value="mañana">Mañana</option>
+                  <option value="tarde">Tarde</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Nombre de quien registra
+              <input
+                id="registeredBy"
+                name="registeredBy"
+                type="text"
+                autocomplete="name"
+                placeholder="Ej. Ana López"
+                maxlength="80"
+              />
+            </label>
+
+            <div class="category-heading">
+              <div>
+                <p class="section-kicker">Cantidad atendida</p>
+                <h3>Ingresa el total de cada categoría</h3>
+              </div>
+              <span class="number-hint">Solo números</span>
+            </div>
+
+            <div class="category-grid">
+              <label class="category-field">
+                <span>Socios</span>
+                <input name="socios" type="number" min="0" max="9999" placeholder="0" inputmode="numeric" />
+              </label>
+              <label class="category-field">
+                <span>Socios nuevos</span>
+                <input name="sociosNuevos" type="number" min="0" max="9999" placeholder="0" inputmode="numeric" />
+              </label>
+              <label class="category-field">
+                <span>Libre</span>
+                <input name="libre" type="number" min="0" max="9999" placeholder="0" inputmode="numeric" />
+              </label>
+              <label class="category-field">
+                <span>Cartilla nueva</span>
+                <input name="cartillaNueva" type="number" min="0" max="9999" placeholder="0" inputmode="numeric" />
+              </label>
+              <label class="category-field">
+                <span>Cartilla renovada</span>
+                <input name="cartillaRenovada" type="number" min="0" max="9999" placeholder="0" inputmode="numeric" />
+              </label>
+            </div>
+
+            <label>
+              Observaciones
+              <textarea
+                id="notes"
+                name="notes"
+                rows="3"
+                maxlength="300"
+                placeholder="Opcional"
+              ></textarea>
+            </label>
+
+            <div class="form-actions">
+              <button id="submitButton" class="button primary" type="submit">
+                <span aria-hidden="true">＋</span> Guardar registro
+              </button>
+              <button id="cancelEdit" class="button secondary" type="button" hidden>Cancelar edición</button>
+              <button id="clearForm" class="button secondary" type="reset">Limpiar</button>
+            </div>
+            <p class="privacy-note">
+              <span aria-hidden="true">🔒</span>
+              Los datos se guardan en este dispositivo. Exporta una copia antes
+              de cambiar de equipo o navegador.
+            </p>
+          </form>
+        </div>
+
+        <aside class="panel help-panel">
+          <p class="section-kicker">Respaldo de información</p>
+          <h2>Tus datos están bajo tu control</h2>
+          <p>
+            Esta página funciona sin servidor. Usa los botones para descargar
+            tus registros y conservarlos como archivo.
+          </p>
+          <div class="export-actions">
+            <button id="downloadCsv" class="export-button" type="button">
+              <span class="file-icon csv">XLS</span>
+              <span><strong>Descargar Excel</strong><small>Ábrelo en Excel desde tu celular o PC</small></span>
+              <span class="arrow" aria-hidden="true">↓</span>
+            </button>
+            <button id="downloadJson" class="export-button" type="button">
+              <span class="file-icon json">{ }</span>
+              <span><strong>Descargar JSON</strong><small>Copia completa de respaldo</small></span>
+              <span class="arrow" aria-hidden="true">↓</span>
+            </button>
+            <button id="downloadTxt" class="export-button" type="button">
+              <span class="file-icon txt">TXT</span>
+              <span><strong>Descargar texto</strong><small>Formato simple para compartir</small></span>
+              <span class="arrow" aria-hidden="true">↓</span>
+            </button>
+            <label class="import-button">
+              <span class="file-icon import">↑</span>
+              <span><strong>Importar JSON</strong><small>Recuperar una copia anterior</small></span>
+              <input id="importJson" type="file" accept=".json,application/json" />
+            </label>
+          </div>
+          <div class="tip-box">
+            <strong>También funciona en celular</strong>
+            <p>Ábrelo desde Safari o Chrome. En iPhone puedes tocar Compartir → Agregar a inicio. El Excel se guarda en Archivos y puedes abrirlo con Excel.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="panel records-panel">
+        <div class="panel-heading records-heading">
+          <div>
+            <p class="section-kicker">Historial</p>
+            <h2>Registros recientes</h2>
+          </div>
+          <div class="table-tools">
+            <select id="filterMonth" aria-label="Filtrar por mes">
+              <option value="all">Todos los meses</option>
+              <option value="09">Septiembre</option>
+              <option value="10">Octubre</option>
+              <option value="11">Noviembre</option>
+              <option value="12">Diciembre</option>
+            </select>
+            <button id="clearAll" class="text-button" type="button">Borrar todo</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Turno</th>
+                <th>Registró</th>
+                <th>Socios</th>
+                <th>Socios nuevos</th>
+                <th>Libre</th>
+                <th>Cartilla nueva</th>
+                <th>Cartilla renovada</th>
+                <th>Total</th>
+                <th><span class="sr-only">Acción</span></th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon" aria-hidden="true">▤</div>
+            <strong>Aún no hay registros</strong>
+            <span>El primer registro que guardes aparecerá aquí.</span>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span>Registro de atención</span>
+        <span>Funciona en iPhone, Android y computadora · Sin instalación</span>
+      </footer>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js?v=9"></script>
+  </body>
+</html>
